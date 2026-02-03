@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VG Boutique Wear</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Josefin+Sans:wght@100;200;300;400&display=swap" rel="stylesheet"/>
+<style>
+/* ===================== VARIABLES ===================== */
+:root {
+  --bg: #141414;
+  --bg2: #1a1a1a;
+  --bg3: #222;
+  --orange: #d4724a;
+  --orange2: #e8956a;
+  --peach: #f0c8b0;
+  --cream: #f5e6dc;
+  --white: #fff;
+  --muted: #888;
+  --muted2: #aaa;
+  --gold-line: rgba(212,114,74,0.35);
+}
+
+/* ===================== RESET ===================== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'Josefin Sans',sans-serif;
+  background:var(--bg);
+  color:var(--white);
+  overflow-x:hidden;
+  cursor: default;
+}
+a { text-decoration:none; color:inherit; }
+img { max-width:100%; display:block; }
+input, button, textarea { font-family:inherit; }
+
+/* ===================== GRAIN OVERLAY ===================== */
+body::after {
+  content:'';
+  position:fixed; inset:0; z-index:9999;
+  pointer-events:none;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity:.7;
+}
+
+/* ===================== CUSTOM CURSOR ===================== */
+.cursor { position:fixed; width:12px; height:12px; background:var(--orange); border-radius:50%; pointer-events:none; z-index:10000; transition:transform .15s ease, width .25s, height .25s, background .25s; transform:translate(-50%,-50%); mix-blend-mode:difference; }
+.cursor.hover { width:36px; height:36px; background:transparent; border:1px solid var(--orange); }
+
+/* ===================== NAVBAR ===================== */
+nav {
+  position:fixed; top:0; width:100%; z-index:1000;
+  padding:24px 56px;
+  display:flex; align-items:center; justify-content:space-between;
+  transition:all .4s;
+  background:rgba(20,20,20,0);
+}
+nav.scrolled {
+  background:rgba(20,20,20,.92);
+  backdrop-filter:blur(16px);
+  padding:16px 56px;
+  border-bottom:1px solid var(--gold-line);
+}
+.nav-logo {
+  display:flex; align-items:center; gap:14px;
+}
+.nav-logo svg { width:38px; height:38px; }
+.nav-logo-text {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.15rem; font-weight:300;
+  letter-spacing:5px; text-transform:uppercase;
+}
+.nav-logo-text span { color:var(--orange); }
+
+.nav-links { display:flex; gap:36px; list-style:none; }
+.nav-links a {
+  font-size:.68rem; letter-spacing:3.5px; text-transform:uppercase;
+  font-weight:200; color:var(--muted2);
+  position:relative; transition:color .3s;
+}
+.nav-links a::after {
+  content:''; position:absolute; bottom:-5px; left:0;
+  width:0; height:1px; background:var(--orange);
+  transition:width .4s;
+}
+.nav-links a:hover { color:var(--orange); }
+.nav-links a:hover::after { width:100%; }
+
+.nav-right { display:flex; align-items:center; gap:22px; }
+.nav-social {
+  display:flex; gap:16px;
+}
+.nav-social a {
+  font-size:.6rem; letter-spacing:2px; text-transform:uppercase;
+  color:var(--muted); transition:color .3s;
+}
+.nav-social a:hover { color:var(--orange); }
+
+.nav-btn {
+  padding:9px 22px; border:1px solid var(--gold-line);
+  font-size:.62rem; letter-spacing:3px; text-transform:uppercase;
+  color:var(--orange); background:transparent;
+  cursor:pointer; transition:all .3s;
+}
+.nav-btn:hover { background:var(--orange); color:var(--bg); border-color:var(--orange); }
+
+/* ===================== HERO ===================== */
+.hero {
+  position:relative; height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden; background:var(--bg);
+}
+/* Ambient glow */
+.hero-glow {
+  position:absolute;
+  width:700px; height:700px;
+  border-radius:50%;
+  filter:blur(180px);
+  opacity:.12;
+  background:radial-gradient(circle, var(--orange) 0%, transparent 70%);
+  top:50%; left:50%; transform:translate(-50%,-50%);
+  animation:breathe 8s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%,100%{ opacity:.08; transform:translate(-50%,-50%) scale(1); }
+  50%{ opacity:.16; transform:translate(-50%,-50%) scale(1.12); }
+}
+
+/* Animated diamond rings */
+.hero-ring {
+  position:absolute; top:50%; left:50%;
+  border:1px solid var(--gold-line);
+  transform:translate(-50%,-50%) rotate(45deg);
+  opacity:0;
+  animation:ringIn 3s ease forwards;
+}
+.hero-ring:nth-child(1){ width:260px; height:260px; animation-delay:.2s; }
+.hero-ring:nth-child(2){ width:400px; height:400px; border-color:rgba(212,114,74,.18); animation-delay:.5s; }
+.hero-ring:nth-child(3){ width:560px; height:560px; border-color:rgba(212,114,74,.1); animation-delay:.8s; }
+.hero-ring:nth-child(4){ width:740px; height:740px; border-color:rgba(212,114,74,.05); animation-delay:1.1s; }
+@keyframes ringIn {
+  to{ opacity:1; }
+}
+
+/* corner accents */
+.hero-corner {
+  position:absolute; width:60px; height:60px;
+  border-color:var(--gold-line); border-style:solid;
+  opacity:.4;
+}
+.hero-corner.tl{ top:60px; left:60px; border-width:1px 0 0 1px; }
+.hero-corner.tr{ top:60px; right:60px; border-width:1px 1px 0 0; }
+.hero-corner.bl{ bottom:60px; left:60px; border-width:0 0 1px 1px; }
+.hero-corner.br{ bottom:60px; right:60px; border-width:0 1px 1px 0; }
+
+.hero-content {
+  position:relative; z-index:2;
+  text-align:center;
+  opacity:0; animation:heroFade 1.4s .3s ease forwards;
+}
+@keyframes heroFade {
+  from{ opacity:0; transform:translateY(24px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+
+/* BIG Logo SVG — faithful to original: diamond frame with < > corners, crown top (3 peaks), big intertwined VG with gradient */
+.hero-logo-svg { width:200px; height:200px; margin:0 auto 40px; }
+
+.hero-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:5.2rem; font-weight:300;
+  letter-spacing:22px; text-transform:uppercase;
+  line-height:1;
+}
+.hero-subtitle {
+  font-size:.75rem; font-weight:200;
+  letter-spacing:12px; text-transform:uppercase;
+  color:var(--orange); margin-top:10px;
+}
+.hero-line {
+  width:52px; height:1px;
+  background:linear-gradient(90deg, transparent, var(--orange), transparent);
+  margin:36px auto;
+}
+.hero-desc {
+  font-size:.76rem; font-weight:200;
+  color:var(--muted2); letter-spacing:1.5px;
+  line-height:2.2; max-width:400px; margin:0 auto 44px;
+}
+.btn-hero {
+  display:inline-block;
+  padding:16px 48px;
+  background:linear-gradient(135deg, var(--orange), var(--orange2));
+  color:var(--bg); font-size:.68rem;
+  letter-spacing:4px; text-transform:uppercase;
+  font-weight:400; border:none; cursor:pointer;
+  transition:all .35s; position:relative; overflow:hidden;
+}
+.btn-hero::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(135deg, var(--orange2), var(--peach));
+  opacity:0; transition:opacity .4s;
+}
+.btn-hero:hover::before { opacity:1; }
+.btn-hero span { position:relative; z-index:1; }
+.btn-hero:hover { box-shadow:0 10px 40px rgba(212,114,74,.35); transform:translateY(-2px); }
+
+/* scroll hint */
+.scroll-hint {
+  position:absolute; bottom:38px; left:50%;
+  transform:translateX(-50%); z-index:2;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  opacity:.45;
+}
+.scroll-hint span { font-size:.58rem; letter-spacing:4px; text-transform:uppercase; color:var(--muted); }
+.scroll-hint-line {
+  width:1px; height:44px;
+  background:linear-gradient(to bottom, var(--orange), transparent);
+  animation:scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%,100%{ opacity:.3; transform:scaleY(.6); }
+  50%{ opacity:1; transform:scaleY(1); }
+}
+
+/* ===================== MARQUEE ===================== */
+.marquee-wrap {
+  padding:28px 0; overflow:hidden;
+  border-top:1px solid rgba(255,255,255,.04);
+  border-bottom:1px solid rgba(255,255,255,.04);
+  background:var(--bg2);
+}
+.marquee {
+  display:flex; width:max-content;
+  animation:marquee 20s linear infinite;
+}
+.marquee span {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem; font-weight:300;
+  letter-spacing:10px; text-transform:uppercase;
+  color:rgba(255,255,255,.08);
+  white-space:nowrap; padding:0 40px;
+}
+.marquee span em { color:var(--orange); font-style:normal; opacity:.5; }
+@keyframes marquee { to{ transform:translateX(-50%); } }
+
+/* ===================== SECTION HELPERS ===================== */
+.sec-label {
+  font-size:.62rem; letter-spacing:5px; text-transform:uppercase;
+  color:var(--orange); font-weight:300; margin-bottom:12px;
+}
+.sec-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.9rem; font-weight:300; line-height:1.2;
+}
+.sec-line { width:38px; height:1px; background:var(--orange); margin-bottom:22px; }
+.sec-line.center { margin-left:auto; margin-right:auto; }
+
+/* ===================== ABOUT ===================== */
+.about {
+  padding:140px 56px;
+  display:flex; align-items:center; justify-content:center;
+  gap:90px; max-width:1280px; margin:0 auto;
+}
+.about-vis {
+  flex:0 0 420px; position:relative; height:500px;
+}
+.about-frame {
+  position:absolute; inset:0;
+  border:1px solid var(--gold-line);
+  display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(145deg, rgba(212,114,74,.06), rgba(212,114,74,.01));
+}
+.about-frame svg { width:160px; height:160px; opacity:.55; }
+/* decorative corner squares */
+.about-vis::before, .about-vis::after {
+  content:''; position:absolute;
+  width:70px; height:70px;
+  border:1px solid var(--gold-line);
+}
+.about-vis::before { bottom:-18px; right:-18px; transform:rotate(8deg); }
+.about-vis::after { top:-18px; left:-18px; transform:rotate(-5deg); }
+
+.about-text { flex:1; max-width:500px; }
+.about-text p {
+  font-size:.8rem; font-weight:200; line-height:2.3;
+  color:var(--muted2); letter-spacing:.8px; margin-bottom:16px;
+}
+.stats {
+  display:flex; gap:56px; margin-top:48px;
+  padding-top:36px; border-top:1px solid rgba(255,255,255,.06);
+}
+.stat h3 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.4rem; font-weight:300; color:var(--orange);
+}
+.stat p { font-size:.6rem; letter-spacing:3px; text-transform:uppercase; color:var(--muted); margin-top:4px; }
+
+/* ===================== PRODUCTS ===================== */
+.products { padding:130px 56px; background:var(--bg2); }
+.products-header { text-align:center; margin-bottom:20px; }
+.products-header .sec-line { margin:0 auto 32px; }
+
+/* Filter tabs */
+.filters {
+  display:flex; justify-content:center; gap:8px; margin-bottom:56px; flex-wrap:wrap;
+}
+.filter-btn {
+  padding:9px 24px; border:1px solid rgba(255,255,255,.1);
+  background:transparent; color:var(--muted2);
+  font-size:.64rem; letter-spacing:3px; text-transform:uppercase;
+  cursor:pointer; transition:all .3s; font-family:inherit;
+}
+.filter-btn:hover, .filter-btn.active {
+  border-color:var(--orange); color:var(--orange);
+  background:rgba(212,114,74,.07);
+}
+
+/* Product grid */
+.product-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(280px,1fr));
+  gap:28px; max-width:1240px; margin:0 auto;
+}
+.product-card {
+  background:var(--bg); border:1px solid rgba(255,255,255,.05);
+  overflow:hidden; position:relative;
+  transition:transform .4s, box-shadow .4s;
+  cursor:pointer;
+}
+.product-card:hover {
+  transform:translateY(-6px);
+  box-shadow:0 20px 50px rgba(0,0,0,.4);
+}
+.product-card:hover .card-overlay { opacity:1; }
+
+.card-img-wrap {
+  position:relative; aspect-ratio:3/4;
+  background:var(--bg2); overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+}
+.card-img-wrap img {
+  width:100%; height:100%; object-fit:cover;
+  transition:transform .6s;
+}
+.product-card:hover .card-img-wrap img { transform:scale(1.05); }
+
+/* placeholder when no image */
+.card-placeholder {
+  width:100%; height:100%;
+  display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(145deg, var(--bg2), #1e1e1e);
+}
+.card-placeholder svg { width:64px; height:64px; opacity:.18; }
+
+.card-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(20,20,20,.95) 0%, transparent 50%);
+  display:flex; align-items:flex-end; justify-content:center;
+  padding-bottom:28px; opacity:0; transition:opacity .4s; z-index:2;
+}
+.card-overlay .btn-whatsapp {
+  display:flex; align-items:center; gap:8px;
+  padding:11px 24px; background:rgba(20,20,20,.8);
+  border:1px solid var(--gold-line); color:var(--white);
+  font-size:.62rem; letter-spacing:3px; text-transform:uppercase;
+  cursor:pointer; transition:all .3s; backdrop-filter:blur(6px);
+}
+.card-overlay .btn-whatsapp:hover { background:var(--orange); border-color:var(--orange); color:var(--bg); }
+.card-overlay .btn-whatsapp svg { width:14px; height:14px; }
+
+/* tag badge */
+.card-tag {
+  position:absolute; top:18px; left:18px; z-index:3;
+  padding:5px 14px; background:var(--orange);
+  font-size:.58rem; letter-spacing:2.5px; text-transform:uppercase;
+  color:var(--bg); font-weight:400;
+}
+
+.card-info { padding:20px 22px 22px; }
+.card-info h3 { font-family:'Cormorant Garamond',serif; font-size:1.25rem; font-weight:400; margin-bottom:6px; }
+.card-info .card-cat { font-size:.6rem; letter-spacing:2.5px; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
+.card-info .card-price {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.3rem; font-weight:300; color:var(--orange);
+}
+
+/* empty state */
+.products-empty {
+  text-align:center; padding:80px 20px; color:var(--muted);
+  font-size:.75rem; letter-spacing:2px; display:none;
+}
+.products-empty.show { display:block; }
+
+/* ===================== UPLOAD MODAL ===================== */
+.modal-overlay {
+  position:fixed; inset:0; z-index:5000;
+  background:rgba(0,0,0,.7); backdrop-filter:blur(8px);
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none; transition:opacity .35s;
+}
+.modal-overlay.open { opacity:1; pointer-events:auto; }
+.modal {
+  background:var(--bg2); border:1px solid var(--gold-line);
+  width:90%; max-width:500px; max-height:90vh; overflow-y:auto;
+  padding:48px 40px;
+  transform:translateY(30px); transition:transform .4s;
+  position:relative;
+}
+.modal-overlay.open .modal { transform:translateY(0); }
+
+.modal-close {
+  position:absolute; top:20px; right:24px;
+  background:none; border:none; color:var(--muted);
+  font-size:1.4rem; cursor:pointer; transition:color .3s;
+  line-height:1;
+}
+.modal-close:hover { color:var(--orange); }
+
+.modal h2 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.9rem; font-weight:300; margin-bottom:6px;
+}
+.modal .sec-label { margin-bottom:28px; }
+
+.form-group { margin-bottom:22px; }
+.form-group label {
+  display:block; font-size:.6rem; letter-spacing:3px;
+  text-transform:uppercase; color:var(--muted); margin-bottom:8px;
+}
+.form-group input, .form-group select {
+  width:100%; padding:12px 16px;
+  background:var(--bg); border:1px solid rgba(255,255,255,.1);
+  color:var(--white); font-size:.72rem; letter-spacing:1px;
+  transition:border .3s; outline:none;
+}
+.form-group input:focus, .form-group select:focus { border-color:var(--orange); }
+.form-group select option { background:var(--bg); color:var(--white); }
+
+/* image upload area */
+.upload-area {
+  border:1px dashed var(--gold-line);
+  padding:36px 20px; text-align:center;
+  cursor:pointer; transition:all .3s; position:relative;
+  background:rgba(212,114,74,.02);
+}
+.upload-area:hover { border-color:var(--orange); background:rgba(212,114,74,.06); }
+.upload-area input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; }
+.upload-area .upload-icon { font-size:1.6rem; color:var(--orange); margin-bottom:10px; opacity:.7; }
+.upload-area p { font-size:.66rem; color:var(--muted); letter-spacing:1.5px; }
+.upload-area p em { color:var(--orange); font-style:normal; }
+
+.img-preview-wrap {
+  margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;
+}
+.img-preview {
+  width:72px; height:72px; object-fit:cover;
+  border:1px solid var(--gold-line); position:relative;
+}
+
+.form-row { display:flex; gap:16px; }
+.form-row .form-group { flex:1; }
+
+.btn-submit {
+  width:100%; padding:14px;
+  background:linear-gradient(135deg, var(--orange), var(--orange2));
+  border:none; color:var(--bg);
+  font-size:.68rem; letter-spacing:4px; text-transform:uppercase;
+  font-weight:400; cursor:pointer; margin-top:10px;
+  transition:all .3s;
+}
+.btn-submit:hover { box-shadow:0 8px 30px rgba(212,114,74,.35); transform:translateY(-1px); }
+
+/* ===================== BANNER ===================== */
+.banner {
+  margin:0 56px; padding:100px 80px;
+  position:relative; overflow:hidden;
+  background:linear-gradient(140deg, #1e1510 0%, #171412 40%, #141618 100%);
+  border:1px solid rgba(212,114,74,.1);
+  display:flex; align-items:center; justify-content:space-between; gap:60px;
+}
+.banner::before {
+  content:''; position:absolute; top:-80px; right:-80px;
+  width:320px; height:320px;
+  border:1px solid rgba(212,114,74,.08);
+  transform:rotate(45deg);
+}
+.banner::after {
+  content:''; position:absolute; bottom:-50px; left:80px;
+  width:200px; height:200px;
+  border:1px solid rgba(212,114,74,.05);
+  transform:rotate(18deg);
+}
+.banner-text { position:relative; z-index:1; max-width:460px; }
+.banner-text p { font-size:.78rem; font-weight:200; color:var(--muted2); line-height:2.2; margin-bottom:34px; letter-spacing:.8px; }
+.banner-vis { position:relative; z-index:1; }
+.banner-vis svg { width:200px; height:200px; opacity:.2; }
+
+/* ===================== CONTACT / NEWSLETTER ===================== */
+.contact { padding:120px 56px; text-align:center; background:var(--bg); }
+.contact-inner { max-width:560px; margin:0 auto; }
+.contact p { font-size:.78rem; font-weight:200; color:var(--muted2); line-height:2.1; letter-spacing:1px; margin-bottom:40px; }
+
+.contact-buttons { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; margin-bottom:48px; }
+.btn-contact {
+  display:flex; align-items:center; gap:10px;
+  padding:14px 30px; border:1px solid var(--gold-line);
+  background:transparent; color:var(--white);
+  font-size:.66rem; letter-spacing:3px; text-transform:uppercase;
+  cursor:pointer; transition:all .3s;
+}
+.btn-contact:hover { background:var(--orange); border-color:var(--orange); color:var(--bg); }
+.btn-contact svg { width:16px; height:16px; }
+.btn-contact:hover svg path, .btn-contact:hover svg circle, .btn-contact:hover svg rect { stroke:var(--bg); }
+
+.newsletter-form { display:flex; border:1px solid var(--gold-line); }
+.newsletter-form input {
+  flex:1; padding:15px 22px;
+  background:transparent; border:none; color:var(--white);
+  font-size:.7rem; letter-spacing:2px; outline:none;
+}
+.newsletter-form input::placeholder { color:var(--muted); text-transform:uppercase; }
+.newsletter-form button {
+  padding:15px 34px; background:var(--orange); border:none;
+  color:var(--bg); font-size:.64rem; letter-spacing:3px;
+  text-transform:uppercase; cursor:pointer; transition:background .3s;
+}
+.newsletter-form button:hover { background:var(--orange2); }
+
+/* ===================== FOOTER ===================== */
+footer {
+  padding:80px 56px 36px;
+  border-top:1px solid rgba(255,255,255,.05);
+  background:var(--bg);
+}
+.footer-grid {
+  display:grid; grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:50px; max-width:1200px; margin:0 auto 60px;
+}
+.footer-brand .nav-logo { margin-bottom:18px; }
+.footer-brand p { font-size:.7rem; font-weight:200; color:var(--muted); line-height:2; letter-spacing:.8px; }
+.footer-col h4 { font-size:.6rem; letter-spacing:4px; text-transform:uppercase; color:var(--orange); margin-bottom:22px; font-weight:300; }
+.footer-col ul { list-style:none; }
+.footer-col li { margin-bottom:11px; }
+.footer-col a { font-size:.7rem; color:var(--muted); letter-spacing:.8px; font-weight:200; transition:color .3s; }
+.footer-col a:hover { color:var(--orange); }
+
+.footer-bottom {
+  max-width:1200px; margin:0 auto;
+  padding-top:28px; border-top:1px solid rgba(255,255,255,.05);
+  display:flex; justify-content:space-between; align-items:center;
+}
+.footer-bottom p { font-size:.62rem; color:var(--muted); letter-spacing:1px; font-weight:200; }
+.footer-socials { display:flex; gap:20px; }
+.footer-socials a { font-size:.62rem; letter-spacing:2px; text-transform:uppercase; color:var(--muted); transition:color .3s; }
+.footer-socials a:hover { color:var(--orange); }
+
+/* ===================== FLOATING WHATSAPP ===================== */
+.fab-whatsapp {
+  position:fixed; bottom:32px; right:32px; z-index:999;
+  width:58px; height:58px; border-radius:50%;
+  background:linear-gradient(135deg,#25ae60,#128a3e);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; box-shadow:0 6px 24px rgba(0,0,0,.4);
+  transition:transform .3s, box-shadow .3s;
+  border:none;
+}
+.fab-whatsapp:hover { transform:scale(1.1); box-shadow:0 8px 32px rgba(0,0,0,.5); }
+.fab-whatsapp svg { width:28px; height:28px; fill:#fff; }
+.fab-label {
+  position:absolute; right:72px; top:50%; transform:translateY(-50%);
+  background:var(--bg2); border:1px solid var(--gold-line);
+  padding:8px 16px; white-space:nowrap;
+  font-size:.62rem; letter-spacing:2px; text-transform:uppercase; color:var(--white);
+  opacity:0; pointer-events:none; transition:opacity .3s;
+}
+.fab-whatsapp:hover .fab-label { opacity:1; }
+
+/* ===================== RESPONSIVE ===================== */
+@media(max-width:900px){
+  .about{ flex-direction:column; gap:50px; padding:80px 28px; }
+  .about-vis{ flex:none; width:100%; max-width:420px; }
+  .banner{ flex-direction:column; gap:30px; padding:60px 36px; margin:0 24px; }
+  .footer-grid{ grid-template-columns:1fr 1fr; }
+  nav{ padding:20px 24px; }
+  nav.scrolled{ padding:14px 24px; }
+  .hero-title{ font-size:3rem; letter-spacing:12px; }
+}
+@media(max-width:600px){
+  .nav-links{ display:none; }
+  .nav-social{ display:none; }
+  .products{ padding:80px 20px; }
+  .contact{ padding:70px 20px; }
+  .newsletter-form{ flex-direction:column; }
+  footer{ padding:60px 22px 30px; }
+  .footer-grid{ grid-template-columns:1fr; gap:32px; }
+  .hero-title{ font-size:2.1rem; letter-spacing:7px; }
+  .sec-title{ font-size:2rem; }
+  .banner{ margin:0; padding:50px 24px; }
+  .product-grid{ grid-template-columns:repeat(auto-fill, minmax(230px,1fr)); gap:18px; }
+}
+
+/* ===================== SCROLL REVEAL ===================== */
+.reveal { opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- custom cursor -->
+<div class="cursor" id="cursor"></div>
+
+<!-- ============ NAVBAR ============ -->
+<nav id="navbar">
+  <div class="nav-logo">
+    <!-- small logo SVG -->
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#d4724a"/>
+          <stop offset="55%" stop-color="#e8956a"/>
+          <stop offset="100%" stop-color="#f0c8b0"/>
+        </linearGradient>
+      </defs>
+      <!-- diamond frame with < > style corners -->
+      <polygon points="40,6 74,40 40,74 6,40" stroke="rgba(212,114,74,0.45)" stroke-width="1" fill="none"/>
+      <!-- left < -->
+      <polyline points="16,34 8,40 16,46" stroke="rgba(212,114,74,0.5)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <!-- right > -->
+      <polyline points="64,34 72,40 64,46" stroke="rgba(212,114,74,0.5)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <!-- crown 3 peaks -->
+      <polyline points="28,24 31,18 34,24" stroke="url(#g1)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="34,24 37,14 40,24" stroke="url(#g1)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="40,24 43,18 46,24" stroke="url(#g1)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- V -->
+      <polyline points="22,30 33,52 40,38 47,52 58,30" stroke="url(#g1)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- G -->
+      <path d="M30,58 C30,53 38,49 42,53 C46,57 46,65 42,66 C38,67 30,63 30,58" stroke="url(#g1)" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+      <line x1="42" y1="60" x2="42" y2="66" stroke="url(#g1)" stroke-width="2.4" stroke-linecap="round"/>
+      <!-- bottom diamond point accent -->
+      <polyline points="36,72 40,78 44,72" stroke="rgba(212,114,74,0.4)" stroke-width="1" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div class="nav-logo-text"><span>VG</span> Boutique Wear</div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">Sobre</a></li>
+    <li><a href="#products">Produtos</a></li>
+    <li><a href="#contact">Contato</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-social">
+      <a href="https://instagram.com/vgboutiquewear" target="_blank">Instagram</a>
+      <a href="https://wa.me/5567981133718" target="_blank">WhatsApp</a>
+    </div>
+    <button class="nav-btn" onclick="openModal()">+ Adicionar Produto</button>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-ring"></div>
+  <div class="hero-ring"></div>
+  <div class="hero-ring"></div>
+  <div class="hero-ring"></div>
+  <div class="hero-corner tl"></div>
+  <div class="hero-corner tr"></div>
+  <div class="hero-corner bl"></div>
+  <div class="hero-corner br"></div>
+
+  <div class="hero-content">
+    <!-- HERO LOGO — faithful: diamond with < > corners, 3-peak crown, big intertwined VG, bottom V point -->
+    <svg class="hero-logo-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="heroG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d46e3a"/>
+      <stop offset="45%" stop-color="#e8956a"/>
+      <stop offset="100%" stop-color="#f0d0be"/>
+    </linearGradient>
+  </defs>
+  <!-- Diamond -->
+  <polygon points="100,20 180,100 100,180 20,100" stroke="rgba(212,114,74,0.42)" stroke-width="1.3" fill="none"/>
+  <!-- < left -->
+  <polyline points="36,86 22,100 36,114" stroke="rgba(212,114,74,0.5)" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- > right -->
+  <polyline points="164,86 178,100 164,114" stroke="rgba(212,114,74,0.5)" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- ===================== V (behind G) ===================== -->
+  <!-- V left leg: top-left down to bottom-center -->
+  <line x1="62" y1="55" x2="100" y2="148" stroke="url(#heroG)" stroke-width="11" stroke-linecap="butt"/>
+  <!-- V right leg: top-right down to bottom-center -->
+  <line x1="126" y1="55" x2="100" y2="148" stroke="url(#heroG)" stroke-width="11" stroke-linecap="butt"/>
+  <!-- V left serif (horizontal cap at top-left tip) -->
+  <line x1="55" y1="55" x2="70" y2="55" stroke="url(#heroG)" stroke-width="5" stroke-linecap="butt"/>
+  <!-- V right serif (horizontal cap at top-right tip) -->
+  <line x1="118" y1="55" x2="134" y2="55" stroke="url(#heroG)" stroke-width="5" stroke-linecap="butt"/>
+
+  <!-- ===================== Crown (above V, 3 peaks) ===================== -->
+  <!-- Left peak -->
+  <polyline points="60,55 66,42 75,55" stroke="url(#heroG)" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Center peak (tallest) -->
+  <polyline points="75,55 84,34 93,55" stroke="url(#heroG)" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Right peak -->
+  <polyline points="93,55 100,42 108,55" stroke="url(#heroG)" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- ===================== G (on top of V) ===================== -->
+  <!-- G outer bowl — classic serif G shape, opening to the right -->
+  <!-- Top of G, curving left and down -->
+  <path d="M 128,90 C 128,72 108,64 90,72 C 72,80 64,100 72,118 C 80,136 100,144 118,138 C 134,132 138,120 132,112" 
+        stroke="url(#heroG)" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <!-- G crossbar: horizontal spur from the right side going left -->
+  <line x1="132" y1="112" x2="108" y2="112" stroke="url(#heroG)" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- Bottom chevron -->
+  <polyline points="94,176 100,184 106,176" stroke="rgba(212,114,74,0.4)" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+    <h1 class="hero-title">Boutique</h1>
+    <p class="hero-subtitle">Wear</p>
+    <div class="hero-line"></div>
+    <p class="hero-desc">Moda refinada e exclusiva para quem valoriza estilo, qualidade e personalidade. Cada peça, um detalhe pensado para você.</p>
+    <a href="#products" class="btn-hero"><span>Explorar Coleção</span></a>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Descer</span>
+    <div class="scroll-hint-line"></div>
+  </div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee-wrap">
+  <div class="marquee">
+    <span>Feminino <em>✦</em> Masculino <em>✦</em> Acessórios <em>✦</em> Nova Coleção <em>✦</em> Estilo Exclusivo <em>✦</em> Elegância <em>✦</em> VG Boutique Wear <em>✦</em></span>
+    <span>Feminino <em>✦</em> Masculino <em>✦</em> Acessórios <em>✦</em> Nova Coleção <em>✦</em> Estilo Exclusivo <em>✦</em> Elegância <em>✦</em> VG Boutique Wear <em>✦</em></span>
+  </div>
+</div>
+
+<!-- ============ ABOUT ============ -->
+<section id="about">
+  <div class="about reveal">
+    <div class="about-vis">
+      <div class="about-frame">
+        <!-- same logo motif, softer -->
+        <svg viewBox="0 0 160 160" fill="none">
+          <defs><linearGradient id="aG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d4724a"/><stop offset="55%" stop-color="#e8956a"/><stop offset="100%" stop-color="#f0c8b0"/></linearGradient></defs>
+          <polygon points="80,10 150,80 80,150 10,80" stroke="rgba(212,114,74,0.35)" stroke-width="1" fill="none"/>
+          <polyline points="24,72 14,80 24,88" stroke="rgba(212,114,74,0.4)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <polyline points="136,72 146,80 136,88" stroke="rgba(212,114,74,0.4)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <polyline points="56,46 62,34 68,46" stroke="url(#aG)" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="68,46 74,28 80,46" stroke="url(#aG)" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="80,46 86,34 92,46" stroke="url(#aG)" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="38,55 58,108 80,70 102,108 122,55" stroke="url(#aG)" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M50,120 C50,111 66,105 74,111 C82,117 82,131 74,133 C66,135 50,127 50,120" stroke="url(#aG)" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <line x1="74" y1="124" x2="74" y2="133" stroke="url(#aG)" stroke-width="4" stroke-linecap="round"/>
+          <polyline points="74,148 80,156 86,148" stroke="rgba(212,114,74,0.35)" stroke-width="1" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+    <div class="about-text">
+      <p class="sec-label">Sobre Nós</p>
+      <h2 class="sec-title">A Arte de<br/>Vestir com Estilo</h2>
+      <div class="sec-line"></div>
+      <p>Na VG Boutique Wear, acreditamos que moda é mais do que roupa — é uma expressão da sua personalidade. Cada coleção é cuidadosamente curada para oferecer peças que combinem elegância, conforto e modernidade.</p>
+      <p>Nosso compromisso é com a qualidade e a exclusividade, criando looks que te destacam em qualquer ambiente.</p>
+      <div class="stats">
+        <div class="stat"><h3>5+</h3><p>Anos</p></div>
+        <div class="stat"><h3>200+</h3><p>Peças</p></div>
+        <div class="stat"><h3>1K+</h3><p>Clientes</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRODUCTS ============ -->
+<section id="products" class="products">
+  <div class="products-header reveal">
+    <p class="sec-label">Coleção</p>
+    <h2 class="sec-title">Nossos Produtos</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="filters reveal">
+    <button class="filter-btn active" data-filter="all">Todos</button>
+    <button class="filter-btn" data-filter="feminino">Feminino</button>
+    <button class="filter-btn" data-filter="masculino">Masculino</button>
+    <button class="filter-btn" data-filter="acessorios">Acessórios</button>
+  </div>
+
+  <div class="product-grid" id="productGrid">
+    <!-- products injected by JS -->
+  </div>
+  <div class="products-empty" id="productsEmpty">Nenhum produto encontrado nesta categoria.</div>
+</section>
+
+<!-- ============ BANNER ============ -->
+<div class="banner reveal">
+  <div class="banner-text">
+    <p class="sec-label">Destaque</p>
+    <h2 class="sec-title">Novidades<br/>chegaram</h2>
+    <div class="sec-line"></div>
+    <p>Peças leves, elegantes e pensadas para o clima brasileiro. Conforto e estilo na mesma coleção.</p>
+    <a href="#products" class="btn-hero" style="opacity:1;animation:none;"><span>Ver Coleção</span></a>
+  </div>
+  <div class="banner-vis">
+    <svg viewBox="0 0 200 200" fill="none">
+  <defs>
+    <linearGradient id="bG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d46e3a"/>
+      <stop offset="45%" stop-color="#e8956a"/>
+      <stop offset="100%" stop-color="#f0d0be"/>
+    </linearGradient>
+  </defs>
+  <polygon points="100,20 180,100 100,180 20,100" stroke="rgba(212,114,74,0.25)" stroke-width="1.1" fill="none"/>
+  <polyline points="36,86 22,100 36,114" stroke="rgba(212,114,74,0.3)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="164,86 178,100 164,114" stroke="rgba(212,114,74,0.3)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="62" y1="55" x2="100" y2="148" stroke="url(#bG)" stroke-width="11" stroke-linecap="butt"/>
+  <line x1="126" y1="55" x2="100" y2="148" stroke="url(#bG)" stroke-width="11" stroke-linecap="butt"/>
+  <line x1="55" y1="55" x2="70" y2="55" stroke="url(#bG)" stroke-width="5" stroke-linecap="butt"/>
+  <line x1="118" y1="55" x2="134" y2="55" stroke="url(#bG)" stroke-width="5" stroke-linecap="butt"/>
+  <polyline points="60,55 66,42 75,55" stroke="url(#bG)" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="75,55 84,34 93,55" stroke="url(#bG)" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="93,55 100,42 108,55" stroke="url(#bG)" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 128,90 C 128,72 108,64 90,72 C 72,80 64,100 72,118 C 80,136 100,144 118,138 C 134,132 138,120 132,112" stroke="url(#bG)" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <line x1="132" y1="112" x2="108" y2="112" stroke="url(#bG)" stroke-width="6.5" stroke-linecap="round"/>
+  <polyline points="94,176 100,184 106,176" stroke="rgba(212,114,74,0.3)" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+  </div>
+</div>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" class="contact">
+  <div class="contact-inner reveal">
+    <p class="sec-label">Contato</p>
+    <h2 class="sec-title">Fale com Nós</h2>
+    <div class="sec-line center"></div>
+    <p>Tire suas dúvidas, peça orçamentos ou converse com a nossa equipe. Estamos sempre prontos para atender você.</p>
+
+    <div class="contact-buttons">
+      <a href="https://wa.me/5567981133718" target="_blank" class="btn-contact">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        WhatsApp
+      </a>
+      <a href="https://instagram.com/vgboutiquewear" target="_blank" class="btn-contact">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg>
+        Instagram
+      </a>
+    </div>
+
+    <p class="sec-label" style="margin-bottom:14px;">Newsletter</p>
+    <div class="newsletter-form">
+      <input type="email" placeholder="Seu e-mail aqui"/>
+      <button>Inscrever</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="nav-logo" style="margin-bottom:18px;">
+        <svg viewBox="0 0 80 80" fill="none" width="34" height="34">
+  <defs>
+    <linearGradient id="fG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d46e3a"/>
+      <stop offset="45%" stop-color="#e8956a"/>
+      <stop offset="100%" stop-color="#f0d0be"/>
+    </linearGradient>
+  </defs>
+  <polygon points="40,8 72,40 40,72 8,40" stroke="rgba(212,114,74,0.42)" stroke-width="0.7" fill="none"/>
+  <polyline points="14.4,34.4 8.8,40 14.4,45.6" stroke="rgba(212,114,74,0.5)" stroke-width="0.9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="65.6,34.4 71.2,40 65.6,45.6" stroke="rgba(212,114,74,0.5)" stroke-width="0.9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="24.8" y1="22" x2="40" y2="59.2" stroke="url(#fG)" stroke-width="4.4" stroke-linecap="butt"/>
+  <line x1="50.4" y1="22" x2="40" y2="59.2" stroke="url(#fG)" stroke-width="4.4" stroke-linecap="butt"/>
+  <line x1="22" y1="22" x2="28" y2="22" stroke="url(#fG)" stroke-width="2" stroke-linecap="butt"/>
+  <line x1="47.2" y1="22" x2="53.6" y2="22" stroke="url(#fG)" stroke-width="2" stroke-linecap="butt"/>
+  <polyline points="24,22 26.4,16.8 30,22" stroke="url(#fG)" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="30,22 33.6,13.6 37.2,22" stroke="url(#fG)" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="37.2,22 40,16.8 43.2,22" stroke="url(#fG)" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 51.2,36 C 51.2,28.8 43.2,25.6 36,28.8 C 28.8,32 25.6,40 28.8,47.2 C 32,54.4 40,57.6 47.2,55.2 C 53.6,52.8 55.2,48 52.8,44.8" stroke="url(#fG)" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <line x1="52.8" y1="44.8" x2="43.2" y2="44.8" stroke="url(#fG)" stroke-width="3.2" stroke-linecap="round"/>
+  <polyline points="37.6,70.4 40,73.6 42.4,70.4" stroke="rgba(212,114,74,0.4)" stroke-width="0.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+        <div class="nav-logo-text"><span>VG</span> Boutique Wear</div>
+      </div>
+      <p>Moda refinada e exclusiva, criada para quem valoriza estilo e qualidade. São Paulo, Brasil.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Coleções</h4>
+      <ul>
+        <li><a href="#">Feminino</a></li>
+        <li><a href="#">Masculino</a></li>
+        <li><a href="#">Acessórios</a></li>
+        <li><a href="#">Nova Coleção</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Empresa</h4>
+      <ul>
+        <li><a href="#">Sobre Nós</a></li>
+        <li><a href="#">Sustentabilidade</a></li>
+        <li><a href="#">Carreiras</a></li>
+        <li><a href="#">Blog</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Suporte</h4>
+      <ul>
+        <li><a href="https://wa.me/5567981133718" target="_blank">WhatsApp</a></li>
+        <li><a href="#">Entrega & Trocas</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Privacidade</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 VG Boutique Wear. Todos os direitos reservados.</p>
+    <div class="footer-socials">
+      <a href="https://instagram.com/vgboutiquewear" target="_blank">Instagram</a>
+      <a href="https://wa.me/5567981133718" target="_blank">WhatsApp</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ FLOATING WHATSAPP ============ -->
+<a href="https://wa.me/5567981133718" target="_blank" class="fab-whatsapp">
+  <div class="fab-label">Fale conosco</div>
+  <svg viewBox="0 0 24 24"><path d="M20.04 4.96a10 10 0 00-16.12 12.58L2.5 21l4.53-1.18A10 10 0 0020.04 4.96zM12 18a8 8 0 01-4.06-1.06l-.28-.17-2.67.7.69-2.73-.18-.28A8 8 0 1112 18zm4.66-5.3c-.25-.14-.66-.36-.71-.41-.15-.07-.29-.06-.41.06-.11.12-.44.55-.54.66-.1.11-.2.12-.37.04-.17-.08-.7-.26-1.34-.82-.49-.44-.82-.98-1-.11-.08-.04-.15-.07-.22-.11a1.41 1.41 0 01-.06.65c-.12.28-.38.52-.68.68-.26.14-.48.26-.7.39a7.4 7.4 0 01-.8.36c-.24.1-.47.19-.69.26-.22.07-.48.13-.72.13h-.44c-.14 0-.29.02-.42.06s-.34.12-.5.2a1.24 1.24 0 00-.37.32c-.05.07-.12.16-.2.29-.08.13-.15.28-.21.43-.06.15-.12.35-.15.58a3.18 3.18 0 000 .55c0 .12.01.24.04.36.06.24.15.45.28.61.13.16.3.27.47.34.33.13.67.2 1 .2.39 0 .77-.08 1.12-.22.35-.14.68-.34.97-.59.5-.41.86-.93 1.07-1.52.03-.08.05-.16.07-.24.36.15.74.39 1.05.67.32.29.55.6.66.87.11.27.12.51.06.72-.06.21-.2.39-.42.5a1.63 1.63 0 01-.63.18c-.22.01-.43.02-.64.02z"/></svg>
+</a>
+
+<!-- ============ UPLOAD MODAL ============ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <p class="sec-label">Gerenciar Produtos</p>
+    <h2>Adicionar Produto</h2>
+
+    <div style="margin-top:28px;">
+      <div class="form-group">
+        <label>Nome do Produto</label>
+        <input type="text" id="prodName" placeholder="Ex: Vestido Floral"/>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Categoria</label>
+          <select id="prodCat">
+            <option value="feminino">Feminino</option>
+            <option value="masculino">Masculino</option>
+            <option value="acessorios">Acessórios</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Preço (R$)</label>
+          <input type="number" id="prodPrice" placeholder="199,90"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Descrição (opcional)</label>
+        <input type="text" id="prodDesc" placeholder="Curta descrição do produto"/>
+      </div>
+      <div class="form-group">
+        <label>Tag (opcional)</label>
+        <select id="prodTag">
+          <option value="">Sem tag</option>
+          <option value="Lançamento">Lançamento</option>
+          <option value="Destaque">Destaque</option>
+          <option value="Promoção">Promoção</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Foto do Produto</label>
+        <div class="upload-area" id="uploadArea">
+          <input type="file" id="prodImg" accept="image/*" multiple/>
+          <div class="upload-icon">⬆</div>
+          <p>Arraste ou clique para<br/><em>selecionar imagem</em></p>
+        </div>
+        <div class="img-preview-wrap" id="imgPreviewWrap"></div>
+      </div>
+      <button class="btn-submit" onclick="addProduct()">Adicionar ao Catálogo</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SCRIPTS ============ -->
+<script>
+// ---- CURSOR ----
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+document.querySelectorAll('a, button, .product-card, .filter-btn, .upload-area, .nav-btn').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+});
+
+// ---- NAVBAR scroll ----
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', scrollY > 60);
+});
+
+// ---- SCROLL REVEAL ----
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); } });
+}, { threshold: 0.15 });
+reveals.forEach(el => observer.observe(el));
+
+// ---- PRODUCTS DATA (stored in memory) ----
+let products = [
+  { id:1, name:'Vestido Floral Elegante', cat:'feminino', price:249.90, desc:'Vestido midi com estampas florais delicadas', tag:'Lançamento', img:null },
+  { id:2, name:'Camisa Linho Masculina', cat:'masculino', price:189.90, desc:'Camisa de linho com acabamento premium', tag:'Destaque', img:null },
+  { id:3, name:'Bolsa Couro Genuíno', cat:'acessorios', price:349.90, desc:'Bolsa mão artesanal em couro italiano', tag:'', img:null },
+  { id:4, name:'Calça Alfaiate Feminina', cat:'feminino', price:299.90, desc:'Calça cloquê com corte impecável', tag:'', img:null },
+  { id:5, name:'Paletó Slim Fit', cat:'masculino', price:499.90, desc:'Paletó tailored com forros internos exclusivos', tag:'Destaque', img:null },
+  { id:6, name:'Anel Dourado Artesanal', cat:'acessorios', price:129.90, desc:'Anel em ouro 18k com acabamento matte', tag:'Lançamento', img:null },
+];
+let nextId = 7;
+let selectedImgDataUrl = null;
+
+// ---- LOGO placeholder SVG for cards ----
+const logoSVG = `<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d46e3a"/>
+      <stop offset="45%" stop-color="#e8956a"/>
+      <stop offset="100%" stop-color="#f0d0be"/>
+    </linearGradient>
+  </defs>
+  <polygon points="40,8 72,40 40,72 8,40" stroke="rgba(212,114,74,0.3)" stroke-width="0.7" fill="none"/>
+  <polyline points="14.4,34.4 8.8,40 14.4,45.6" stroke="rgba(212,114,74,0.4)" stroke-width="0.9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="65.6,34.4 71.2,40 65.6,45.6" stroke="rgba(212,114,74,0.4)" stroke-width="0.9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="24.8" y1="22" x2="40" y2="59.2" stroke="url(#cG)" stroke-width="4.4" stroke-linecap="butt"/>
+  <line x1="50.4" y1="22" x2="40" y2="59.2" stroke="url(#cG)" stroke-width="4.4" stroke-linecap="butt"/>
+  <line x1="22" y1="22" x2="28" y2="22" stroke="url(#cG)" stroke-width="2" stroke-linecap="butt"/>
+  <line x1="47.2" y1="22" x2="53.6" y2="22" stroke="url(#cG)" stroke-width="2" stroke-linecap="butt"/>
+  <polyline points="24,22 26.4,16.8 30,22" stroke="url(#cG)" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="30,22 33.6,13.6 37.2,22" stroke="url(#cG)" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="37.2,22 40,16.8 43.2,22" stroke="url(#cG)" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 51.2,36 C 51.2,28.8 43.2,25.6 36,28.8 C 28.8,32 25.6,40 28.8,47.2 C 32,54.4 40,57.6 47.2,55.2 C 53.6,52.8 55.2,48 52.8,44.8" stroke="url(#cG)" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <line x1="52.8" y1="44.8" x2="43.2" y2="44.8" stroke="url(#cG)" stroke-width="3.2" stroke-linecap="round"/>
+</svg>`;
+
+// ---- RENDER PRODUCTS ----
+function renderProducts(filter = 'all') {
+  const grid = document.getElementById('productGrid');
+  const empty = document.getElementById('productsEmpty');
+  const filtered = filter === 'all' ? products : products.filter(p => p.cat === filter);
+  if(filtered.length === 0){ grid.innerHTML=''; empty.classList.add('show'); return; }
+  empty.classList.remove('show');
+  grid.innerHTML = filtered.map(p => {
+    const catLabel = { feminino:'Feminino', masculino:'Masculino', acessorios:'Acessórios' };
+    const price = p.price.toFixed(2).replace('.',',');
+    const imgContent = p.img
+      ? `<img src="${p.img}" alt="${p.name}" />`
+      : `<div class="card-placeholder">${logoSVG}</div>`;
+    return `
+    <div class="product-card">
+      ${p.tag ? `<div class="card-tag">${p.tag}</div>` : ''}
+      <div class="card-img-wrap">${imgContent}</div>
+      <div class="card-overlay">
+        <a href="https://wa.me/5567981133718?text=${encodeURIComponent('Olá! Tenho interesse no produto: '+p.name+' - R$ '+price)}" target="_blank" class="btn-whatsapp">
+          <svg viewBox="0 0 24 24" fill="white"><path d="M20.04 4.96a10 10 0 00-16.12 12.58L2.5 21l4.53-1.18A10 10 0 0020.04 4.96zM12 18a8 8 0 01-4.06-1.06l-.28-.17-2.67.7.69-2.73-.18-.28A8 8 0 1112 18z"/></svg>
+          Consultar Preço
+        </a>
+      </div>
+      <div class="card-info">
+        <p class="card-cat">${catLabel[p.cat]}</p>
+        <h3>${p.name}</h3>
+        <p class="card-price">R$ ${price}</p>
+      </div>
+    </div>`;
+  }).join('');
+}
+renderProducts();
+
+// ---- FILTER TABS ----
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderProducts(btn.dataset.filter);
+  });
+});
+
+// ---- MODAL ----
+function openModal(){ document.getElementById('modalOverlay').classList.add('open'); }
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  selectedImgDataUrl = null;
+  document.getElementById('imgPreviewWrap').innerHTML = '';
+}
+document.getElementById('modalOverlay').addEventListener('click', e => { if(e.target === e.currentTarget) closeModal(); });
+
+// ---- FILE PREVIEW ----
+document.getElementById('prodImg').addEventListener('change', function(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    selectedImgDataUrl = ev.target.result;
+    document.getElementById('imgPreviewWrap').innerHTML = `<img class="img-preview" src="${selectedImgDataUrl}" alt="preview"/>`;
+  };
+  reader.readAsDataURL(file);
+});
+
+// ---- ADD PRODUCT ----
+function addProduct(){
+  const name = document.getElementById('prodName').value.trim();
+  const cat = document.getElementById('prodCat').value;
+  const price = parseFloat(document.getElementById('prodPrice').value);
+  const desc = document.getElementById('prodDesc').value.trim();
+  const tag = document.getElementById('prodTag').value;
+
+  if(!name){ alert('Por favor, insira o nome do produto.'); return; }
+  if(!price || price <= 0){ alert('Por favor, insira um preço válido.'); return; }
+
+  products.unshift({
+    id: nextId++,
+    name, cat, price, desc, tag,
+    img: selectedImgDataUrl
+  });
+  renderProducts('all');
+  // reset form
+  document.getElementById('prodName').value = '';
+  document.getElementById('prodPrice').value = '';
+  document.getElementById('prodDesc').value = '';
+  document.getElementById('prodTag').value = '';
+  document.getElementById('prodImg').value = '';
+  document.getElementById('imgPreviewWrap').innerHTML = '';
+  selectedImgDataUrl = null;
+  // reset filters to "all"
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('[data-filter="all"]').classList.add('active');
+  closeModal();
+}
+</script>
+</body>
+</html>
